@@ -1,33 +1,43 @@
 
 def classify_issue(review):
     """
-    Identify all relevant issues mentioned in a customer review.
-    Returns a comma-separated string to remain compatible
-    with the existing application.
+    Identify customer complaint categories using keyword matching.
+    Avoid classifying positive payment experiences as complaints.
     """
+
     text = review.lower()
 
     categories = {
         "Delivery": [
             "delivery", "shipping", "late", "delayed",
-            "arrived", "package", "tracking"
+            "arrived late", "package", "tracking"
         ],
+
         "Product Quality": [
             "quality", "broken", "damaged", "defective",
             "stopped working", "malfunction", "replacement"
         ],
+
         "Customer Support": [
             "support", "service", "staff", "complaint",
             "responded", "helped", "contacted", "calls",
-            "ignored", "follow-up"
+            "ignored", "follow-up", "nobody helped",
+            "no response", "not responded"
         ],
+
         "Payment & Refund": [
-            "refund", "payment", "money", "charged",
-            "deducted", "reimbursement"
+            "refund", "payment failed", "payment issue",
+            "payment problem", "payment error",
+            "charged", "deducted", "reimbursement",
+            "money back", "charged twice",
+            "incorrect charge", "unauthorized charge",
+            "billing error", "billing issue",
+            "transaction failed"
         ],
+
         "Pricing": [
-            "price", "expensive", "cost", "overpriced",
-            "charges"
+            "expensive", "overpriced", "high price",
+            "too costly", "price is too high"
         ]
     }
 

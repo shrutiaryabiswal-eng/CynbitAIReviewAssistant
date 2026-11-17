@@ -114,3 +114,18 @@ def test_database_save_and_history(tmp_path, monkeypatch):
     assert len(history) == 1
     assert history[0][1] == "Test customer review"
     assert history[0][6] == "High"
+
+def test_positive_payment_not_classified_as_complaint():
+    review = "Good value for money. Smooth payment process and helpful staff."
+
+    result = classify_issue(review)
+
+    assert "Payment & Refund" not in result
+
+
+def test_actual_payment_complaint_is_detected():
+    review = "I was charged twice and my refund has not arrived."
+
+    result = classify_issue(review)
+
+    assert "Payment & Refund" in result
