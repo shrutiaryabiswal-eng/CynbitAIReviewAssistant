@@ -7,11 +7,11 @@ def generate_response(review, sentiment, category):
 
     if sentiment == "negative":
         response = (
-            f"We're sorry to hear about your experience with "
-            f"{category.lower()}. Thank you for bringing this "
-            "to our attention. Our team would like to investigate "
-            "this issue and work towards a resolution. "
-            "Please contact our support team with your order details."
+            "We're sorry to hear about this experience. "
+            "Thank you for bringing the issue to our attention. "
+            "Our team will review your concern and work towards "
+            "a resolution. Please contact our support team with "
+            "your order details so we can assist you."
         )
 
     elif sentiment == "positive":
