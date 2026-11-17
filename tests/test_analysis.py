@@ -129,3 +129,30 @@ def test_actual_payment_complaint_is_detected():
     result = classify_issue(review)
 
     assert "Payment & Refund" in result
+
+def test_positive_payment_review_not_flagged():
+    review = "Good value for money. Smooth payment process and helpful staff."
+
+    result = detect_priority(review, "positive", 5)
+
+    assert result["priority"] == "Low"
+    assert "Payment or refund issue" not in result["reasons"]
+
+
+def test_low_rating_positive_review_not_flagged_as_payment_issue():
+    review = "The experience was good and the payment process was smooth."
+
+    result = detect_priority(review, "positive", 2)
+
+    assert result["priority"] == "Medium"
+    assert "Low customer rating" in result["reasons"]
+    assert "Payment or refund issue" not in result["reasons"]
+
+
+def test_actual_refund_complaint_is_flagged():
+    review = "I was charged twice and my refund has not arrived."
+
+    result = detect_priority(review, "negative", 2)
+
+    assert result["priority"] == "High"
+    assert "Payment or refund issue" in result["reasons"]

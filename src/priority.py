@@ -1,6 +1,11 @@
 
 def detect_priority(review, sentiment, rating):
+    """
+    Assign review priority using rating, sentiment, and
+    complaint-specific urgency indicators.
+    """
     text = review.lower()
+    reasons = []
 
     urgent_terms = [
         "urgent",
@@ -10,6 +15,7 @@ def detect_priority(review, sentiment, rating):
         "nobody responded",
         "nobody has responded",
         "not responded",
+        "no response",
         "unresolved",
         "money back",
         "full refund",
@@ -20,15 +26,22 @@ def detect_priority(review, sentiment, rating):
         "charged twice"
     ]
 
-    payment_terms = [
+    payment_issue_terms = [
         "refund",
-        "payment",
+        "payment failed",
+        "payment issue",
+        "payment problem",
+        "payment error",
         "charged",
         "deducted",
-        "money back"
+        "reimbursement",
+        "money back",
+        "incorrect charge",
+        "unauthorized charge",
+        "billing error",
+        "billing issue",
+        "transaction failed"
     ]
-
-    reasons = []
 
     if rating <= 2:
         reasons.append("Low customer rating")
@@ -36,15 +49,15 @@ def detect_priority(review, sentiment, rating):
     if sentiment == "negative":
         reasons.append("Negative sentiment")
 
-    has_urgent_issue = any(term in text for term in urgent_terms)
-
-    if has_urgent_issue:
+    if any(term in text for term in urgent_terms):
         reasons.append("Urgent customer issue detected")
 
-    if any(term in text for term in payment_terms):
+    if any(term in text for term in payment_issue_terms):
         reasons.append("Payment or refund issue")
 
-    if rating <= 2 and sentiment == "negative" and has_urgent_issue:
+    if rating <= 2 and sentiment == "negative" and any(
+        term in text for term in urgent_terms
+    ):
         priority = "High"
     elif rating <= 2 or sentiment == "negative":
         priority = "Medium"
